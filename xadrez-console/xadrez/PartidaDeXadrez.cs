@@ -6,15 +6,15 @@ namespace xadrez
     class PartidaDeXadrez
     {
         public Tabuleiro Tab { get; private set; }
-        private int turno;
-        private Cor jogadorAtual;
+        public int Turno { get; private set; }
+        public Cor JogadorAtual { get; private set; }
         public bool Terminada { get; private set; }
 
         public PartidaDeXadrez()
         {
             this.Tab = new Tabuleiro(8, 8);
-            this.turno = 1;
-            this.jogadorAtual = Cor.Branca;
+            this.Turno = 1;
+            this.JogadorAtual = Cor.Branca;
             this.Terminada = false;
             this.ColocarPecas();
         }
@@ -26,6 +26,50 @@ namespace xadrez
             Peca pecaCapturada =  Tab.RetirarPeca(destino);
             Tab.ColocarPeca(p,destino);
         }
+
+        public void RealizaJogada(Posicao origem, Posicao destino)
+        {
+            this.ExecutaMovimento(origem, destino);
+            this.Turno++;
+            this.MudaJogador();
+        }
+
+        public void ValidarPosicaoDeOrigem(Posicao pos)
+        {
+            if (this.Tab.Peca(pos) == null)
+            {
+                throw new TabuleiroException("Não existe peça na posição de origem escolhida!");
+            }
+            if (this.JogadorAtual != Tab.Peca(pos).Cor)
+            {
+                throw new TabuleiroException("A peça de origem escolhida não é sua!");
+            }
+            if (!this.Tab.Peca(pos).ExistemMovimentosPossiveis())
+            {
+                throw new TabuleiroException("Não há movimentos possíveis para a peça de origem escolhida!");
+            }
+        }
+
+        public void ValidarPosicaoDeDestino(Posicao origem, Posicao destino)
+        {
+            if (!this.Tab.Peca(origem).PodeMoverPara(destino))
+            {
+                throw new TabuleiroException("Posição de destino inválida!");
+            }
+        }
+
+        private void MudaJogador()
+        {
+            if (this.JogadorAtual == Cor.Branca)
+            {
+                this.JogadorAtual = Cor.Preta;
+            }
+            else
+            {
+                this.JogadorAtual = Cor.Branca;
+            }
+        }
+
         private void ColocarPecas()
         {
             Tab.ColocarPeca(new Torre(Tab, Cor.Branca), new PosicaoXadrez('c',1).ToPosicao());
