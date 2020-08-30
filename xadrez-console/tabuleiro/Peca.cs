@@ -20,6 +20,11 @@
             this.QteMovimentos++;
         }
 
+        public void DecrementarQteMovimentos()
+        {
+            this.QteMovimentos--;
+        }
+
         public bool ExistemMovimentosPossiveis()
         {
             bool[,] mat = MovimentosPossiveis();

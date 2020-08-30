@@ -39,7 +39,7 @@ namespace xadrez_console
                     }
                     catch(TabuleiroException e)
                     {
-                        Console.WriteLine(e.Message + "\nPressione ENTER para escolher nova posição de origem!");
+                        Console.WriteLine(e.Message + "\nPressione uma tecla para escolher nova posição de origem!");
                         Console.ReadLine();
                     }
                 }                
