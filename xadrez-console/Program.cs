@@ -42,7 +42,11 @@ namespace xadrez_console
                         Console.WriteLine(e.Message + "\nPressione uma tecla para escolher nova posição de origem!");
                         Console.ReadLine();
                     }
-                }                
+                }
+
+                Console.Clear();
+                Tela.ImprimirPartida(partida);
+
             }
             catch(TabuleiroException e)
             {
